@@ -4,13 +4,15 @@ class Board:
         
 
     def setting(self, x: int, c: str, p1: int, p2: int):
-        """ぷよぷよを設置します
+        """ぷよぷよをフィールドに設置します
 
             Args:
                 x (int): 列番号
                 c (str): 向き (l, r, u, d)
-                p1, p2 (int, int): ぷよぷよの色
+                p1 (int): 軸ぷよの色
+                p2 (int): 子ぷよの色
         """
+        
         self.board_up = [15] * 6
         for i in range(6):
             for j in range(15):

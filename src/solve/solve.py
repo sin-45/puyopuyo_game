@@ -1,4 +1,3 @@
-from copy import deepcopy
 import random
 
 from src.utill.board import Board
@@ -83,6 +82,7 @@ class Solve:
         print("~~~~~~~~~~~~~~~~~~~~~~~")
         return True
 
+
     def pyo_clear_search(self, i: int, j:int, choice:int) -> list:
         """ 消えるぷよが存在するか探索する
             Args: 
@@ -129,6 +129,7 @@ class Solve:
         x1 = random.randint(1, 4)
         x2 = random.randint(1, 4)
         return x1, x2
+
 
 if __name__ == "__main__":
     board = Board()

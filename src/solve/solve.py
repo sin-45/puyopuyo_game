@@ -1,4 +1,5 @@
 from copy import deepcopy
+import random
 
 from src.utill.board import Board
 
@@ -11,65 +12,65 @@ class Solve:
         for _ in range(10):
             print("=======================================")
             # for i in self.board: print(i)
-            command = list(input().split())
+            command, c = input().split()
             if len(command) == 0: break
-            command = [
-                int(command[0]),
-                command[1],
-                int(command[2]),
-                int(command[3])
-                ]
+            command = int(command)
             if self.cmd:
-                if command[1] == "l" and command[0] == 0:
-                    command[0] += 1
+                if c == "l" and command == 0:
+                    command += 1
 
-                elif command[1] == "r" and command[0] >= 6:
-                    command[0] = 5
+                elif c == "r" and command >= 6:
+                    command = 5
 
-            board.setting(*command)
+            x1, x2 = self.random_pyo()
+            board.setting(command, c, x1, x2)
             for i in self.board: print(i)
             # print(*command)
-            self.pyo_clear()
 
-    def pyo_clear(self):
-        while True:
-            self.board_map = [[False] * 6 for _ in range(15)]
-            clear_puyo_list = []
-            for i in range(15):
-                for j in range(6):
-                    if self.board[i][j] == 0:
-                        self.board_map[i][j] = True
-                    else:
-                        choice = self.board[i][j]
-                        clear_puyo_list += self.pyo_clear_search(i, j, choice)
+            # CUI用
+            # puyo_rensa = True
+            # while puyo_rensa:
+            #     puyo_rensa = self.pyo_clear()
 
-            print(clear_puyo_list)
-            if len(clear_puyo_list) == 0:
-                break     
+    def pyo_clear(self) -> bool:
+        self.board_map = [[False] * 6 for _ in range(15)]
+        clear_puyo_list = []
+        for i in range(15):
+            for j in range(6):
+                if self.board[i][j] == 0:
+                    self.board_map[i][j] = True
+                else:
+                    choice = self.board[i][j]
+                    clear_puyo_list += self.pyo_clear_search(i, j, choice)
+
+        print(clear_puyo_list)
             
-            # print("->", clear_puyo_list)
-            for k in self.board: print(k)
+        # print("->", clear_puyo_list)
+        # for k in self.board: print(k)
 
-            # ぷよを消す
-            for i, j in clear_puyo_list:
-                self.board[i][j] = 0
+        # ぷよを消す
+        for i, j in clear_puyo_list:
+            self.board[i][j] = 0
 
-            # print()
-            # for k in self.board: print(k)
-            # ぷよを消した分下にブラス
-            for i in range(6):
-                heigh = 14
-                for j in range(14, -1, -1):
-                    if self.board[j][i] != 0:
-                        # print(j, i, heigh, i)
-                        if heigh != j:
-                            self.board[heigh][i] = self.board[j][i]
-                            self.board[j][i] = 0
-                        heigh -= 1
-
-            print("~~~~~~~~~~~~~~~~~~~~")
-            for i in self.board: print(i)
-            print("~~~~~~~~~~~~~~~~~~~~~~~")
+        # print()
+        # for k in self.board: print(k)
+        # ぷよを消した分下にブラス
+        for i in range(6):
+            heigh = 14
+            for j in range(14, -1, -1):
+                if self.board[j][i] != 0:
+                    # print(j, i, heigh, i)
+                    if heigh != j:
+                        self.board[heigh][i] = self.board[j][i]
+                        self.board[j][i] = 0
+                    heigh -= 1
+        if len(clear_puyo_list) == 0:
+            return False
+        
+        print("~~~~~~~~~~~~~~~~~~~~")
+        for i in self.board: print(i)
+        print("~~~~~~~~~~~~~~~~~~~~~~~")
+        return True
 
     def pyo_clear_search(self, i: int, j:int, choice:int) -> list:
         temp = [[i, j]]
@@ -96,6 +97,12 @@ class Solve:
             return result
         else:
             return []
+        
+
+    def random_pyo(self):
+        x1 = random.randint(1, 4)
+        x2 = random.randint(1, 4)
+        return x1, x2
 
 if __name__ == "__main__":
     board = Board()

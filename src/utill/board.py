@@ -16,8 +16,8 @@ class Board:
                     break
 
         center = self.board_up[x]
-        print(center)
         print(self.board_up)
+        for i in self.board: print(i)
         # for i in self.board: print(i)
         if c == "u":
             self.board[center-1][x] = p1
@@ -41,12 +41,24 @@ class Board:
             self.board[center-1][x] = p1
             self.board[right-1][x+1] = p2
             self.board_up[x] -= 1
-            self.board_up[x+1] = 1
+            self.board_up[x+1] -= 1
 
     def __getitem__(self, index):
         # インデックスを使ってデータ要素を返す
         return self.board[index]
     
+    # boardにおけるか確認
+    def game_end(self, row, col):
+        if not(0 <= col < 6 and 0 <= row < 15):
+            return True
+        return self.board[row][col] != 0
+    
+    # boardの色を変更
+    def place_puyo(self, row, col, color):
+        if 0 <= row < 15 and 0 <= col < 6:
+            self.board[row][col] = color
+
+
 if __name__ == "__main__":
     g = Board()
     # g.setting(2, "l", 1, 3)

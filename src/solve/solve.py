@@ -8,7 +8,10 @@ class Solve:
         self.cmd = True
         self.board = board
 
+
     def solve(self):
+        """ CUIでぷよぷよを実装 """
+
         for _ in range(10):
             print("=======================================")
             # for i in self.board: print(i)
@@ -32,7 +35,13 @@ class Solve:
             # while puyo_rensa:
             #     puyo_rensa = self.pyo_clear()
 
+
     def pyo_clear(self) -> bool:
+        """ 消えるぷよを消す
+            Returns:
+                bool: 消えるのがあればTrue
+        """
+
         self.board_map = [[False] * 6 for _ in range(15)]
         clear_puyo_list = []
         for i in range(15):
@@ -64,6 +73,8 @@ class Solve:
                         self.board[heigh][i] = self.board[j][i]
                         self.board[j][i] = 0
                     heigh -= 1
+        
+        # 消えるぷよがなければFalseを返す
         if len(clear_puyo_list) == 0:
             return False
         
@@ -73,6 +84,16 @@ class Solve:
         return True
 
     def pyo_clear_search(self, i: int, j:int, choice:int) -> list:
+        """ 消えるぷよが存在するか探索する
+            Args: 
+                i (int): 探索を開始する行のインデックス
+                j (int): 探索を開始する列のインデックス
+                choice (int): 対象とする色
+            
+            Returns:
+                list: 存在すれば消すぷよの座標を格納する
+        """
+
         temp = [[i, j]]
         dxdy = [[0, -1], [0, 1], [-1, 0], [1, 0]]
         cnt = 1
@@ -99,7 +120,12 @@ class Solve:
             return []
         
 
-    def random_pyo(self):
+    def random_pyo(self) -> tuple:
+        """ ランダムな色のぷよを2つ生成]
+            Returns:
+                tuple(int, int): 生成した色の番号を返す
+        """
+        
         x1 = random.randint(1, 4)
         x2 = random.randint(1, 4)
         return x1, x2

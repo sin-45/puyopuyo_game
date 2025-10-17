@@ -2,11 +2,14 @@ class Board:
     def __init__(self):
         self.board = [[0 for j in range(6)] for _ in range(15)]
         
-    def setting(self, x, c, p1, p2):
-        """
-            x: 列番号
-            c: 向き (l, r, u, d)
-            puyo: ぷよぷよの組
+
+    def setting(self, x: int, c: str, p1: int, p2: int):
+        """ぷよぷよを設置します
+
+            Args:
+                x (int): 列番号
+                c (str): 向き (l, r, u, d)
+                p1, p2 (int, int): ぷよぷよの色
         """
         self.board_up = [15] * 6
         for i in range(6):
@@ -43,7 +46,8 @@ class Board:
             self.board_up[x] -= 1
             self.board_up[x+1] -= 1
 
-    def __getitem__(self, index):
+
+    def __getitem__(self, index: int) -> list:
         # インデックスを使ってデータ要素を返す
         return self.board[index]
     
